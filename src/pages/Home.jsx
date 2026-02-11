@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "../components/Container/Container";
-import Button from "../utils/Button";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -15,16 +15,19 @@ const Home = () => {
               Easily manage patients, appointments, staff, and reports all in
               one place. Streamline your hospital operations efficiently.
             </p>
-            <div className="flex space-x-4">
-              <Button onClick={() => (window.location.href = "/register")}>
+            <div className="flex space-x-4 ">
+              <Link
+                className="px-5 py-2 bg-green-500 rounded-xl"
+                to={"/register"}
+              >
                 Get Started
-              </Button>
-              <Button
-                onClick={() => (window.location.href = "/login")}
-                className="bg-gray-200 text-gray-800 hover:bg-gray-300"
+              </Link>
+              <Link
+                to={"/login"}
+                className="px-5 py-2 bg-gray-200 rounded-xl text-gray-800 hover:bg-gray-300"
               >
                 Login
-              </Button>
+              </Link>
             </div>
           </div>
 
