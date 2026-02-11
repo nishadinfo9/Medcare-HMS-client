@@ -4,7 +4,7 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_SERVER_URI,
-    credentials: true,
+    credentials: "include",
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
