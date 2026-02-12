@@ -3,9 +3,12 @@ import Input from "../../utils/Input";
 import Button from "../../utils/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../api/apiSlice";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/authSlice";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [triggerLogin, { isLoading, error }] = useLoginMutation();
   const {
     register,
@@ -17,7 +20,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       const response = await triggerLogin(data).unwrap();
-      console.log(response);
+      dispatch(login(response.user));
       reset("");
       navigate("/");
     } catch (err) {
