@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
 import { AvatarComp } from "../Home/AvatarComp";
-import { useCurrentUserQuery } from "../../api/apiSlice";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { data: user, isLoading } = useCurrentUserQuery();
-  if (isLoading) return <div>loading...</div>;
+  const { user, loading } = useSelector((state) => state.auth);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <nav className="bg-blue-600 text-white py-3 px-6  shadow-md rounded-xl my-5">

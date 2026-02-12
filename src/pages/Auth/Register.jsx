@@ -2,16 +2,15 @@ import { useForm } from "react-hook-form";
 import Input from "../../utils/Input";
 import Select from "../../utils/Select";
 import Button from "../../utils/Button";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useCurrentUserQuery, useRegisterMutation } from "../../api/apiSlice";
+import toast from "react-hot-toast";
 
 const roles = ["Admin", "Doctor", "Receptionist", "Patient"];
 
 const Register = () => {
-  const { data: user } = useCurrentUserQuery();
-  const [triggerRegister, { isLoading, error: apiError }] =
-    useRegisterMutation();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -20,6 +19,14 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const isPublicRoute = ["/login", "/register"].includes(location.pathname);
+  const { data: user } = useCurrentUserQuery(undefined, {
+    skip: isPublicRoute,
+  });
+  const [triggerRegister, { isLoading }] = useRegisterMutation();
+
+  if (user) return <Navigate to="/" />;
+
   const password = watch("password");
 
   if (user) return <Navigate to="/" />;
@@ -27,11 +34,11 @@ const Register = () => {
   const onSubmit = async (data) => {
     try {
       const response = await triggerRegister(data).unwrap();
-      console.log(response);
       reset("");
       navigate("/login");
-    } catch (err) {
-      console.log(err || apiError);
+      toast.success(response?.message);
+    } catch (error) {
+      toast.error(error.data.message || "register failed");
     }
   };
 

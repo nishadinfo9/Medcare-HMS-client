@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Input from "../../utils/Input";
 import Button from "../../utils/Button";
+import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   const {
@@ -68,12 +69,12 @@ const ForgotPassword = () => {
 
           <p className="text-center text-gray-500 text-sm">
             Remember your password?{" "}
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="text-blue-600 font-medium hover:underline"
             >
               Login
-            </a>
+            </Link>
           </p>
         </form>
       </div>

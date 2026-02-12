@@ -6,6 +6,7 @@ import Layout from "../layout/Layout";
 import Home from "../pages/Home";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
 import Profile from "../pages/Dashboard/Profile";
+import { AuthProtected } from "../protected/AuthProtected";
 
 const AppRouter = () => {
   const route = createBrowserRouter([
@@ -17,7 +18,14 @@ const AppRouter = () => {
       Component: Layout,
       children: [
         { path: "/", Component: Home },
-        { path: "/dashboard/profile", Component: Profile },
+        {
+          path: "/dashboard/profile",
+          element: (
+            <AuthProtected>
+              <Profile />
+            </AuthProtected>
+          ),
+        },
       ],
     },
   ]);

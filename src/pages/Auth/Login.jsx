@@ -5,11 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../api/apiSlice";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/authSlice";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [triggerLogin, { isLoading, error }] = useLoginMutation();
+  const [triggerLogin, { isLoading }] = useLoginMutation();
   const {
     register,
     handleSubmit,
@@ -23,8 +24,9 @@ const Login = () => {
       dispatch(login(response.user));
       reset("");
       navigate("/");
-    } catch (err) {
-      console.log(err || error);
+      toast.success(response?.message);
+    } catch (error) {
+      toast.error(error.data.message || "login failed");
     }
   };
 

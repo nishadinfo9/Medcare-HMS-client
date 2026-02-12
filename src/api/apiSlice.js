@@ -1,27 +1,41 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQueryWithReauth } from "./baseQueryWithReauth";
+import axiosInstance from "./axiosInstance";
+
+const axiosBaseQuery = () => async (config) => {
+  try {
+    const { data } = await axiosInstance(config);
+    return { data };
+  } catch (axiosError) {
+    return {
+      error: {
+        status: axiosError.response?.status,
+        data: axiosError.response?.data,
+      },
+    };
+  }
+};
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: baseQueryWithReauth,
+  baseQuery: axiosBaseQuery(),
   tagTypes: ["User"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
         url: "/login",
         method: "POST",
-        body: credentials,
+        data: credentials,
       }),
-      invalidatesTags: ["User"],
+      providesTags: [{ type: "User", id: "CURRENT" }],
     }),
 
     register: builder.mutation({
       query: (data) => ({
         url: "/register",
         method: "POST",
-        body: data,
+        data,
       }),
-      invalidatesTags: ["User"],
+      providesTags: [{ type: "User", id: "CURRENT" }],
     }),
 
     logout: builder.mutation({
@@ -29,12 +43,14 @@ export const apiSlice = createApi({
         url: "/logout",
         method: "POST",
       }),
-      invalidatesTags: ["User"],
+      providesTags: [{ type: "User", id: "CURRENT" }],
     }),
 
     currentUser: builder.query({
-      query: () => "/current-user",
-      providesTags: ["User"],
+      query: () => ({
+        url: "/current-user",
+      }),
+      providesTags: [{ type: "User", id: "CURRENT" }],
     }),
   }),
 });
