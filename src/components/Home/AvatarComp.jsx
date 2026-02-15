@@ -43,7 +43,7 @@ export function AvatarComp() {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-32">
+      <DropdownMenuContent className="relative right-5">
         <DropdownMenuGroup>
           <DropdownMenuItem
             onClick={() => {

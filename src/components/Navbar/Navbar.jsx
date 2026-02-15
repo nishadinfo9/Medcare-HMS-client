@@ -2,16 +2,15 @@ import { Link } from "react-router-dom";
 
 import { AvatarComp } from "../Home/AvatarComp";
 import { useSelector } from "react-redux";
+import Logo from "../Logo/Logo";
 
 const Navbar = () => {
-  const { user, loading } = useSelector((state) => state.auth);
-
-  if (loading) return <div>Loading...</div>;
+  const { user } = useSelector((state) => state.auth);
 
   return (
-    <nav className="bg-blue-600 text-white py-3 px-6  shadow-md rounded-xl my-5">
+    <nav className="py-3 px-6">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Hospital Management System</h1>
+        <Logo />
         <nav className="space-x-4">
           {user ? (
             <AvatarComp />

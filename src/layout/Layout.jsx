@@ -20,7 +20,12 @@ const Layout = () => {
     }
   }, [data, isError, dispatch]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flec items-center justify-center">
+        <h1>Loading...</h1>
+      </div>
+    );
 
   return (
     <div className="md:w-6xl mx-auto">

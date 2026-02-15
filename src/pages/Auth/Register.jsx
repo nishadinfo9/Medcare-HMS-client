@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import Input from "../../utils/Input";
 import Select from "../../utils/Select";
 import Button from "../../utils/Button";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useCurrentUserQuery, useRegisterMutation } from "../../api/apiSlice";
 import toast from "react-hot-toast";
 
@@ -10,7 +10,6 @@ const roles = ["Admin", "Doctor", "Receptionist", "Patient"];
 
 const Register = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -19,10 +18,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const isPublicRoute = ["/login", "/register"].includes(location.pathname);
-  const { data: user } = useCurrentUserQuery(undefined, {
-    skip: isPublicRoute,
-  });
+  const { data: user } = useCurrentUserQuery(undefined, {});
   const [triggerRegister, { isLoading }] = useRegisterMutation();
 
   if (user) return <Navigate to="/" />;
